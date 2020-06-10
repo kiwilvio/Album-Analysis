@@ -13,6 +13,8 @@ library(geniusr) # Genius API Wrapper
 library(spotifyr) # Spotify API Wrapper
 library(jsonlite) # JSON parser
 library(tidytext) # Text Sentiments
+library(tm) # Text Mining Framework
+library(textdata) # Sentiment Lexicons
 library(wordcloud) # Word Clouds
 library(reshape2) # Postive-Negative Word Cloud
 library(proxy) # Dendrogram
@@ -23,6 +25,9 @@ library(ggrepel) # Text Labels for ggplot
 library(ggridges) # Density Ridges ggplot
 library(wesanderson) # Wes Anderson Color Palatte
 library(radarchart) # Radar Graph Package
+
+nrc <- readRDS("data/NRCWordEmotion.rds")
+afinn <- readRDS("data/afinn_111.rds")
 
 #### UI ####
 ui <- navbarPage("Music Analysis using Genius and Spotify API",
@@ -35,10 +40,10 @@ ui <- navbarPage("Music Analysis using Genius and Spotify API",
                  sidebarPanel(width = 4,
                               textInput("album",
                                         label = "Album Name",
-                                        value = "DAMN."),
+                                        value = "+"),
                               textInput("artist_album",
                                         label = "Artist Name",
-                                        value = "Kendrick Lamar"),
+                                        value = "Ed Sheeran"),
                               submitButton("Explore Album!", icon("refresh"))
                  ),
                  # Main Panel
@@ -80,7 +85,7 @@ ui <- navbarPage("Music Analysis using Genius and Spotify API",
 
 #### About Tab ####
              tabPanel("About",p("This project is made using the Genius and Spotify API wrappers", a("geniusr", href="https://cran.r-project.org/web/packages/geniusr/geniusr.pdf", target="_blank"),
-                                "and ", a("spotifyr", href = "https://www.rcharlie.com/spotifyr/", target="_blank"), ", respectively.", style = "font-size:25px"),
+                                "and ", a("spotifyr", href = "https://www.rcharlie.com/spotifyr/", target="_blank"), ", respectively. All the code for this project can be found", a("here.", href = "", target = "_blank"), style = "font-size:25px"),
                       hr(), 
                       p("This app will run various analysis on the given album. Namely, analyzing the sentiment of individual songs to give an overview on the album. Numerous Spotify metrics for each song on the album are also displayed.", style = "font-size:25px"),
                       hr(), 
@@ -94,6 +99,12 @@ ui <- navbarPage("Music Analysis using Genius and Spotify API",
                         tags$li("speechiness - Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks."),
                         tags$li("valence - A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).")
                       ),
+                      p("Lexicon Information", style = "font-size:25px"),
+                      tags$ul(
+                        tags$li("AFINN - AFINN is a lexicon of English words rated for valence with an integer between minus five (negative) and plus five (positive). The words have been manually labeled by Finn Årup Nielsen in 2009-2011. This dataset was published in Finn Ärup Nielsen (2011), “A new ANEW: Evaluation of a word list for sentiment analysis in microblogs”, Proceedings of the ESWC2011 Workshop on 'Making Sense of Microposts': Big things come in small packages (2011) 93-98."),
+                        tags$li("bing - General purpose English sentiment lexicon that categorizes words in a binary fashion, either positive or negative. This dataset was first published in Minqing Hu and Bing Liu, “Mining and summarizing customer reviews.”, Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery & Data Mining (KDD-2004), 2004."),
+                        tags$li("nrc - General purpose English sentiment/emotion lexicon. This lexicon labels words with six possible sentiments or emotions: 'negative', 'positive', 'anger', 'anticipation', 'disgust', 'fear', 'joy', 'sadness', 'surprise', or 'trust'. The annotations were manually done through Amazon's Mechanical Turk. This dataset was published in Saif Mohammad and Peter Turney. (2013), “Crowdsourcing a Word-Emotion Association Lexicon.” Computational Intelligence, 29(3): 436-465."),
+                        ),
                       p("Acknowledgements:", style = "font-size:25px"),
                       tags$ul(
                         tags$li(a("Professor Lai for teaching me essential text mining and API knowledge.", href = "https://randycity.github.io/", target = "_blank")),
@@ -176,7 +187,7 @@ server <- function(input, output) {
   # Create Dataframe for nrc sentiments
   album_nrc <- reactive({
     album_tokens() %>%
-      inner_join(get_sentiments("nrc")) %>%
+      inner_join(nrc) %>%
       filter(!sentiment %in% c("positive", "negative"))
   })
   
@@ -282,7 +293,7 @@ server <- function(input, output) {
   # Net Sentiments per Song
   album_net_sentiment <- reactive({
     album_tokens() %>% 
-      inner_join(get_sentiments("afinn")) %>% 
+      inner_join(afinn) %>% 
       group_by(song_name) %>% 
       summarise(sum(value)) %>% 
       mutate(colour = case_when(
