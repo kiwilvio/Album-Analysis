@@ -85,7 +85,7 @@ ui <- navbarPage("Music Analysis using Genius and Spotify API",
 
 #### About Tab ####
              tabPanel("About",p("This project is made using the Genius and Spotify API wrappers", a("geniusr", href="https://cran.r-project.org/web/packages/geniusr/geniusr.pdf", target="_blank"),
-                                "and ", a("spotifyr", href = "https://www.rcharlie.com/spotifyr/", target="_blank"), ", respectively. All the code for this project can be found", a("here.", href = "", target = "_blank"), style = "font-size:25px"),
+                                "and ", a("spotifyr", href = "https://www.rcharlie.com/spotifyr/", target="_blank"), ", respectively. All the code for this project can be found", a("here.", href = "https://github.com/kiwilvio/Album-Analysis", target = "_blank"), style = "font-size:25px"),
                       hr(), 
                       p("This app will run various analysis on the given album. Namely, analyzing the sentiment of individual songs to give an overview on the album. Numerous Spotify metrics for each song on the album are also displayed.", style = "font-size:25px"),
                       hr(), 
