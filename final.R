@@ -40,10 +40,10 @@ ui <- navbarPage("Music Analysis using Genius and Spotify API",
                  sidebarPanel(width = 4,
                               textInput("album",
                                         label = "Album Name",
-                                        value = "+"),
+                                        value = "DAMN."),
                               textInput("artist_album",
                                         label = "Artist Name",
-                                        value = "Ed Sheeran"),
+                                        value = "Kendrick Lamar"),
                               submitButton("Explore Album!", icon("refresh"))
                  ),
                  # Main Panel
