@@ -139,8 +139,10 @@ server <- function(input, output) {
                            artist_name = character())
     
     for (i in track_list()$song_title) {
-      album_lyrics <- bind_rows(album_lyrics, get_lyrics_search(input$artist_album,
+      try(
+        album_lyrics <- bind_rows(album_lyrics, get_lyrics_search(input$artist_album,
                                                                 song_title = i))
+        )
     }
     album_lyrics
   })
