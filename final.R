@@ -9,6 +9,8 @@
 # you can uncomment and run the source command to install all necessary packages
 # source("requirements.R")
 
+source("lyric_patch.R")
+
 #### Packages ####
 
 ## R Shiny Functionality ## 
@@ -58,7 +60,7 @@ ui <- navbarPage("Music Analysis using Genius and Spotify API",
                               textInput("artist_album",
                                         label = "Artist Name",
                                         value = "Kendrick Lamar"),
-                              submitButton("Explore Album!", icon("refresh"))
+                              submitButton("Explore Album!", icon("sync"))
                  ),
                  # Main Panel
                  mainPanel(
