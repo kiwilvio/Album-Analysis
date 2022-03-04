@@ -1,20 +1,36 @@
 #### Title ####
-## ================================================================================================================ ##
+## ========================================================================== ##
 ## STA141B Final Project -- Music Analysis using Genius and Spotify API
 ## 06/11/20
 ## Quilvio Hernandez
-## ================================================================================================================ ##
+## ========================================================================== ##
+
+# if this is your first time running this RShiny App
+# you can uncomment and run the source command to install all necessary packages
+# source("requirements.R")
+
+source("lyric_patch.R")
 
 #### Packages ####
+
+## R Shiny Functionality ## 
 library(shiny) # Package for the R Shiny interactions
 library(shinythemes) # Themes for Shiny App
-library(tidyverse) # Data Manipulation
+
+## Music APIs ##
 library(geniusr) # Genius API Wrapper
 library(spotifyr) # Spotify API Wrapper
+
+## Data Manipulation ##
+library(tidyverse) # Data Manipulation
 library(jsonlite) # JSON parser
+
+## Text Manipulation and Analysis ##
 library(tidytext) # Text Sentiments
 library(tm) # Text Mining Framework
 library(textdata) # Sentiment Lexicons
+
+## Visualizations ##
 library(wordcloud) # Word Clouds
 library(reshape2) # Postive-Negative Word Cloud
 library(proxy) # Dendrogram
@@ -26,8 +42,8 @@ library(ggridges) # Density Ridges ggplot
 library(wesanderson) # Wes Anderson Color Palatte
 library(radarchart) # Radar Graph Package
 
-nrc <- readRDS("data/NRCWordEmotion.rds")
-afinn <- readRDS("data/afinn_111.rds")
+nrc <- readRDS("text-datasets/NRCWordEmotion.rds")
+afinn <- readRDS("text-datasets/afinn_111.rds")
 
 #### UI ####
 ui <- navbarPage("Music Analysis using Genius and Spotify API",
@@ -44,7 +60,7 @@ ui <- navbarPage("Music Analysis using Genius and Spotify API",
                               textInput("artist_album",
                                         label = "Artist Name",
                                         value = "Kendrick Lamar"),
-                              submitButton("Explore Album!", icon("refresh"))
+                              submitButton("Explore Album!", icon("sync"))
                  ),
                  # Main Panel
                  mainPanel(
