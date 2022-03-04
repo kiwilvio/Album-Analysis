@@ -7,3 +7,6 @@
 .Rhistory
 .Renviron
 Album-Analysis.Rproj
+
+# shinyapps.io deployment #
+rsconnect/
