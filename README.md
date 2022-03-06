@@ -21,10 +21,13 @@ Now, we turn our attention to pulling in the spotify metrics. To do this we'll c
 ## Examples
 
 ![common_words](examples/common_words.png)
+
 A wordcloud for the lyrics of Beyoncé's album *4*
 
 ![sentiment_words](examples/sentiment_words.png)
+
 A wordcloud for the positive and negative words on Beyoncé's album *4*
+
 ![top_5_words](examples/top_5_words.png)
 Top 5 words from each track on Beyoncé's album *4*
 
