@@ -143,7 +143,7 @@ server <- function(input, output) {
 #### Album Dataframes ####
   # Retrieve Album Track List
   track_list <- reactive({
-    get_album_tracklist_search(input$artist_album, input$album) 
+    geniusr::get_album_tracklist_search(input$artist_album, input$album) 
   })
   
   # Retrieve Lyrics for each song in the album
@@ -156,7 +156,7 @@ server <- function(input, output) {
     
     for (i in track_list()$song_title) {
       try(
-        album_lyrics <- bind_rows(album_lyrics, get_lyrics_search(input$artist_album,
+        album_lyrics <- bind_rows(album_lyrics, geniusr::get_lyrics_search(input$artist_album,
                                                                 song_title = i))
         )
     }
@@ -175,7 +175,7 @@ server <- function(input, output) {
   
   # Retrieve Spotify album audio features
   album_audio_features <- reactive({
-    get_artist_audio_features(input$artist_album)%>% 
+    spotifyr::get_artist_audio_features(input$artist_album)%>% 
       inner_join(track_list(), by = c("track_name" = "song_title")) %>% 
       distinct(track_number, .keep_all = TRUE) %>% 
       select(track_name, danceability, energy, speechiness, 
@@ -282,8 +282,8 @@ server <- function(input, output) {
   
   # Dendrogram 
   album_dendrogram <- reactive({
-    docsdissim <- dist(as.matrix(cast_dtm(album_tokens(), song_name, word, n)), method = "cosine")
-    hclust(docsdissim, method = "ward.D2")
+    docsdissim <- stats::dist(as.matrix(tidytext::cast_dtm(album_tokens(), song_name, word, n)), method = "cosine")
+    stats::hclust(docsdissim, method = "ward.D2")
   })
   
   # Density Plot
