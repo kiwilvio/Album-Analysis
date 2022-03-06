@@ -29,28 +29,37 @@ A wordcloud for the lyrics of Beyoncé's album *4*
 A wordcloud for the positive and negative words on Beyoncé's album *4*
 
 ![top_5_words](examples/top_5_words.png)
+
 Top 5 words from each track on Beyoncé's album *4*
 
 ![sentiment_bing](examples/sentiment_bing.png)
+
 Each song's "gross sentiment" recording both the positive and negative words for each track on Beyoncé's album *4* using [bing lexicon](https://emilhvitfeldt.github.io/textdata/reference/lexicon_bing.html).
 
 ![sentiment_AFINN](examples/sentiment_AFINN.png)
+
 Each song's "net sentiment" comparing the positive words against the negative words for each track on Beyoncé's album *4* using [AFINN lexicon](https://emilhvitfeldt.github.io/textdata/reference/lexicon_afinn.html)
 
 ![dendrogram](examples/dendrogram.png)
+
 A dendrogram for Beyoncé's album *4*. A Document-Term Matrix (DTM) is a matrix that "describes the frequency of terms that occur in a collection of documents" ([Wikipedia](https://en.wikipedia.org/wiki/Document-term_matrix#:~:text=A%20document%2Dterm%20matrix%20is,and%20columns%20correspond%20to%20terms.)). In this instance, each track is a "document" and each word is a "term". The dendrogram is computed by using the cosine-distance matrix of the DTM and the [Ward2 agglomerative algorithm](https://arxiv.org/pdf/1111.6285.pdf).
 
 ![sentiment_radar](examples/sentiment_radar.png)
+
 Radar chart displaying the sentiments from each track on Beyoncé's album *4* using [NRC Word-Emotion Association Lexicon](https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm).
 
 ![sonic_score](examples/sonic_score.png)
+
 Sonic score for each track on Beyoncé's album *4*. Sonice score is a unique metric computed as the sum of valence, danceability, and energy. This metric is taken from [Simran Vatsa's tayloR Taylor Swift analysis](https://medium.com/@simranvatsa5/taylor-f656e2a09cc3).
 
 ![s_metrics_radar](examples/s_metrics_radar.png)
+
 Radar chart displaying Spotify metrics for each track on Beyoncé's album *4*.
 
 ![s_metrics_ridge](examples/s_metrics_ridge.png)
+
 Density ridge plots displaying Spotify metrics for Beyoncé's album *4*.
 
 ![bigrams](examples/bigrams.png)
+
 A directional map of the bigrams on Beyoncé's album *4*. This visualization can also be thought of as a Markov chain, a common model in text processing. In a Markov chain each choice of word depends only on the previous word.
